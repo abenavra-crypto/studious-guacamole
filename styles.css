@@ -69,6 +69,19 @@ header .logo {
   font-size: 1.3rem;
   letter-spacing: 1px;
   color: var(--color-gold);
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+}
+
+header .logo .logo-icon {
+  width: 55px;
+  height: 20px;
+  flex-shrink: 0;
+}
+
+header .logo .logo-text {
+  white-space: nowrap;
 }
 
 header nav ul {
