@@ -135,9 +135,9 @@
 
     // Phase arcs and labels
     const phases = [
-      { name: 'Departure',  startIdx: 0,  endIdx: 4,  color: PHASE_COLORS.Departure },
-      { name: 'Initiation', startIdx: 5,  endIdx: 10, color: PHASE_COLORS.Initiation },
-      { name: 'Return',     startIdx: 11, endIdx: 16, color: PHASE_COLORS.Return }
+      { name: 'Inspiration', startIdx: 0,  endIdx: 4,  color: PHASE_COLORS.Inspiration },
+      { name: 'Craft',       startIdx: 5,  endIdx: 10, color: PHASE_COLORS.Craft },
+      { name: 'Release',     startIdx: 11, endIdx: 16, color: PHASE_COLORS.Release }
     ];
 
     for (const p of phases) {
