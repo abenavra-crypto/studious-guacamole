@@ -3,31 +3,31 @@
   if (!canvas) return;
   const ctx = canvas.getContext('2d');
 
-  // --- Hero's Journey stages (clockwise from top-right) ---
+  // --- The Writer's Journey stages (clockwise from top-right) ---
   const STAGES = [
-    { name: 'The Call to Adventure',           phase: 'Departure',  emotion: 'curious',     color: '#FFD700', expression: '!',  note: 'What if...?' },
-    { name: 'Refusal of the Call',             phase: 'Departure',  emotion: 'fearful',     color: '#A9A9A9', expression: '...',  note: 'No way...' },
-    { name: 'Supernatural Aid',                phase: 'Departure',  emotion: 'awestruck',   color: '#7B68EE', expression: '*',  note: 'A mentor appears!' },
-    { name: 'Crossing the First Threshold',    phase: 'Departure',  emotion: 'determined',  color: '#FF8C00', expression: '>',  note: 'No turning back' },
-    { name: 'The Belly of the Whale',          phase: 'Departure',  emotion: 'overwhelmed', color: '#4169E1', expression: '~',  note: 'Swallowed whole...' },
-    { name: 'The Road of Trials',              phase: 'Initiation', emotion: 'struggling',  color: '#DC143C', expression: 'X',  note: 'Test after test' },
-    { name: 'Meeting with the Goddess',        phase: 'Initiation', emotion: 'enchanted',   color: '#FF69B4', expression: '<3', note: 'Love found' },
-    { name: 'Woman as the Temptress',          phase: 'Initiation', emotion: 'conflicted',  color: '#8B008B', expression: '?!', note: 'Temptation pulls' },
-    { name: 'Atonement with the Father',       phase: 'Initiation', emotion: 'humbled',     color: '#DAA520', expression: '=',  note: 'Facing authority' },
-    { name: 'Apotheosis',                      phase: 'Initiation', emotion: 'transcendent', color: '#E6E6FA', expression: 'o',  note: 'Enlightenment' },
-    { name: 'The Ultimate Boon',               phase: 'Initiation', emotion: 'triumphant',  color: '#FFD700', expression: '!!', note: 'The prize!' },
-    { name: 'Refusal of the Return',           phase: 'Return',     emotion: 'reluctant',   color: '#778899', expression: '<-', note: 'Why go back?' },
-    { name: 'The Magic Flight',                phase: 'Return',     emotion: 'exhilarated', color: '#00CED1', expression: '>>',  note: 'Chase scene!' },
-    { name: 'Rescue from Without',             phase: 'Return',     emotion: 'grateful',    color: '#32CD32', expression: '+',  note: 'Help arrives' },
-    { name: 'Crossing the Return Threshold',   phase: 'Return',     emotion: 'resolute',    color: '#FF6347', expression: '><', note: 'Back to reality' },
-    { name: 'Master of the Two Worlds',        phase: 'Return',     emotion: 'wise',        color: '#9370DB', expression: '~o', note: 'Balance found' },
-    { name: 'Freedom to Live',                 phase: 'Return',     emotion: 'serene',      color: '#3CB371', expression: ':)', note: 'At peace' }
+    { name: 'The Call to Write',                 phase: 'Inspiration', emotion: 'curious',     color: '#FFD700', expression: '!',  note: 'An idea sparks...' },
+    { name: 'Refusal to Write',                  phase: 'Inspiration', emotion: 'fearful',     color: '#A9A9A9', expression: '...',  note: 'Who am I to write this?' },
+    { name: 'Finding a Mentor',                  phase: 'Inspiration', emotion: 'awestruck',   color: '#7B68EE', expression: '*',  note: 'A guiding voice' },
+    { name: 'Opening the Blank Page',            phase: 'Inspiration', emotion: 'determined',  color: '#FF8C00', expression: '>',  note: 'Chapter one...' },
+    { name: 'Lost in the First Draft',           phase: 'Inspiration', emotion: 'overwhelmed', color: '#4169E1', expression: '~',  note: 'Where is this going?' },
+    { name: 'The Grind of Revision',             phase: 'Craft',       emotion: 'struggling',  color: '#DC143C', expression: 'X',  note: 'Draft after draft' },
+    { name: 'Falling in Love with the Story',    phase: 'Craft',       emotion: 'enchanted',   color: '#FF69B4', expression: '<3', note: 'These characters live' },
+    { name: 'Temptation to Abandon',             phase: 'Craft',       emotion: 'conflicted',  color: '#8B008B', expression: '?!', note: 'Maybe a new idea...' },
+    { name: 'Confronting the Inner Critic',      phase: 'Craft',       emotion: 'humbled',     color: '#DAA520', expression: '=',  note: 'You\'re not good enough' },
+    { name: 'The Breakthrough',                  phase: 'Craft',       emotion: 'transcendent', color: '#E6E6FA', expression: 'o',  note: 'It all clicks!' },
+    { name: 'The Finished Draft',                phase: 'Craft',       emotion: 'triumphant',  color: '#FFD700', expression: '!!', note: 'FADE OUT.' },
+    { name: 'Reluctance to Share',               phase: 'Release',     emotion: 'reluctant',   color: '#778899', expression: '<-', note: 'Not ready yet...' },
+    { name: 'Sending It Out',                    phase: 'Release',     emotion: 'exhilarated', color: '#00CED1', expression: '>>',  note: 'Submitted!' },
+    { name: 'Notes from a Reader',               phase: 'Release',     emotion: 'grateful',    color: '#32CD32', expression: '+',  note: 'Feedback arrives' },
+    { name: 'The Final Polish',                  phase: 'Release',     emotion: 'resolute',    color: '#FF6347', expression: '><', note: 'One more pass' },
+    { name: 'Writer Meets the World',            phase: 'Release',     emotion: 'wise',        color: '#9370DB', expression: '~o', note: 'Story and life merge' },
+    { name: 'Freedom to Write Again',            phase: 'Release',     emotion: 'serene',      color: '#3CB371', expression: ':)', note: 'What\'s next?' }
   ];
 
   const PHASE_COLORS = {
-    Departure:  '#c9a84c',
-    Initiation: '#e94560',
-    Return:     '#3CB371'
+    Inspiration: '#c9a84c',
+    Craft:       '#e94560',
+    Release:     '#3CB371'
   };
 
   // --- State ---
@@ -130,8 +130,8 @@
     ctx.fillStyle = 'rgba(201,168,76,0.25)';
     ctx.font = 'italic 14px Georgia, serif';
     ctx.textAlign = 'center';
-    ctx.fillText('Ordinary World', cx, cy - 14);
-    ctx.fillText('Unknown World', cx, cy + 26);
+    ctx.fillText('The Idea', cx, cy - 14);
+    ctx.fillText('The Work', cx, cy + 26);
 
     // Phase arcs and labels
     const phases = [
@@ -372,7 +372,7 @@
     ctx.shadowBlur = 0;
     ctx.font = '14px Georgia, serif';
     ctx.fillStyle = 'rgba(201,168,76,0.8)';
-    ctx.fillText('The hero\'s journey is written.', cx, cy - circleR * 0.5 + 28);
+    ctx.fillText('The writer\'s journey is complete.', cx, cy - circleR * 0.5 + 28);
     ctx.restore();
 
     // Sparkles
