@@ -65,23 +65,13 @@ header .header-inner {
 }
 
 header .logo {
-  font-family: var(--font-heading);
-  font-size: 1.3rem;
-  letter-spacing: 1px;
-  color: var(--color-gold);
   display: flex;
   align-items: center;
-  gap: 0.6rem;
 }
 
-header .logo .logo-icon {
-  width: 55px;
-  height: 20px;
-  flex-shrink: 0;
-}
-
-header .logo .logo-text {
-  white-space: nowrap;
+header .logo .logo-img {
+  height: 55px;
+  width: auto;
 }
 
 header nav ul {
@@ -512,6 +502,92 @@ section {
 .form-group textarea {
   resize: vertical;
   min-height: 140px;
+}
+
+/* ===== About Headshot ===== */
+.about-photo-col {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.about-headshot {
+  width: 280px;
+  height: 280px;
+  border-radius: 50%;
+  object-fit: cover;
+  border: 4px solid var(--color-gold);
+  box-shadow: 0 8px 30px rgba(0,0,0,0.15);
+}
+
+/* ===== Client Rolling Banner ===== */
+.client-banner {
+  background: var(--color-light);
+  padding: 3rem 2rem;
+  overflow: hidden;
+}
+
+.client-banner .section-title {
+  font-size: 1.4rem;
+  margin-bottom: 2rem;
+  color: #888;
+  text-transform: uppercase;
+  letter-spacing: 2px;
+  font-family: var(--font-body);
+  font-weight: 400;
+}
+
+.marquee-wrapper {
+  overflow: hidden;
+  width: 100%;
+  position: relative;
+}
+
+.marquee-wrapper::before,
+.marquee-wrapper::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  width: 80px;
+  z-index: 2;
+  pointer-events: none;
+}
+
+.marquee-wrapper::before {
+  left: 0;
+  background: linear-gradient(to right, var(--color-light), transparent);
+}
+
+.marquee-wrapper::after {
+  right: 0;
+  background: linear-gradient(to left, var(--color-light), transparent);
+}
+
+.marquee-track {
+  display: flex;
+  gap: 3rem;
+  animation: marquee-scroll 30s linear infinite;
+  width: max-content;
+}
+
+.marquee-item {
+  font-family: var(--font-heading);
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: var(--color-primary);
+  opacity: 0.6;
+  white-space: nowrap;
+  letter-spacing: 1px;
+}
+
+@keyframes marquee-scroll {
+  0% {
+    transform: translateX(0);
+  }
+  100% {
+    transform: translateX(-50%);
+  }
 }
 
 /* ===== Footer ===== */
