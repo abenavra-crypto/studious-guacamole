@@ -4,26 +4,145 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="styles.css">
-    <title>Home - My Portfolio</title>
+    <title>Experience Development Executive | Script &amp; Manuscript Consulting</title>
+    <meta name="description" content="Expert feedback on scripts, books, and written material. Quality analysis and marketability consulting to get your project made.">
 </head>
 <body>
     <header>
-        <h1>Welcome to My Portfolio</h1>
-        <nav>
-            <ul>
-                <li><a href="index.html">Home</a></li>
-                <li><a href="services.html">Services</a></li>
-                <li><a href="portfolio.html">Portfolio</a></li>
-                <li><a href="about.html">About</a></li>
-                <li><a href="contact.html">Contact</a></li>
-            </ul>
-        </nav>
+        <div class="header-inner">
+            <div class="logo">Story &amp; Strategy</div>
+            <button class="nav-toggle" aria-label="Toggle navigation" onclick="document.querySelector('nav ul').classList.toggle('open')">&#9776;</button>
+            <nav>
+                <ul>
+                    <li><a href="index.html" class="active">Home</a></li>
+                    <li><a href="services.html">Services</a></li>
+                    <li><a href="portfolio.html">Portfolio</a></li>
+                    <li><a href="about.html">About</a></li>
+                    <li><a href="contact.html">Contact</a></li>
+                </ul>
+            </nav>
+        </div>
     </header>
-    <main>
-        <section>
-            <h2>About Me</h2>
-            <p>Experienced Development Executive</p>
-        </section>
-    </main>
+
+    <!-- Hero -->
+    <section class="hero">
+        <h1>Turn Your Story Into a <span>Green Light</span></h1>
+        <p class="tagline">
+            I provide expert-level feedback on scripts, books, and written material&mdash;evaluating
+            both creative quality and real-world marketability so your project moves from page to production.
+        </p>
+        <div class="cta-group">
+            <a href="services.html" class="btn btn-primary">Explore Services</a>
+            <a href="contact.html" class="btn btn-outline">Get in Touch</a>
+        </div>
+    </section>
+
+    <!-- What I Do -->
+    <section>
+        <div class="container">
+            <h2 class="section-title">What I Bring to Your Project</h2>
+            <p class="section-subtitle">
+                Two decades of development experience distilled into actionable feedback
+                that strengthens your material and maps a clear path to market.
+            </p>
+            <div class="services-grid">
+                <div class="service-card">
+                    <div class="icon">&#9997;</div>
+                    <h3>Quality Analysis</h3>
+                    <p>
+                        In-depth evaluation of structure, character development, theme,
+                        dialogue, pacing, and narrative voice&mdash;delivered as clear, constructive notes.
+                    </p>
+                </div>
+                <div class="service-card">
+                    <div class="icon">&#9878;</div>
+                    <h3>Marketability Assessment</h3>
+                    <p>
+                        Honest analysis of where your project fits in the current marketplace,
+                        who the audience is, and which buyers or publishers are the right targets.
+                    </p>
+                </div>
+                <div class="service-card">
+                    <div class="icon">&#10148;</div>
+                    <h3>Path to Production</h3>
+                    <p>
+                        Strategic guidance on packaging, pitching, and positioning your
+                        material so it reaches the right decision-makers and gets made.
+                    </p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- How It Works -->
+    <section style="background: var(--color-light);">
+        <div class="container">
+            <h2 class="section-title">How It Works</h2>
+            <p class="section-subtitle">A straightforward process designed to respect your time and elevate your material.</p>
+            <div class="process-steps">
+                <div class="step">
+                    <h3>Submit Your Material</h3>
+                    <p>Send your script, manuscript, treatment, or pitch deck through the contact form or email.</p>
+                </div>
+                <div class="step">
+                    <h3>Deep-Dive Review</h3>
+                    <p>I read thoroughly and prepare detailed notes on both creative quality and market viability.</p>
+                </div>
+                <div class="step">
+                    <h3>Written Report</h3>
+                    <p>You receive a comprehensive written evaluation covering strengths, opportunities, and next steps.</p>
+                </div>
+                <div class="step">
+                    <h3>Strategy Call</h3>
+                    <p>We discuss the findings live, answer your questions, and map out a concrete action plan.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Testimonials -->
+    <section class="testimonials">
+        <div class="container">
+            <h2 class="section-title">What Clients Say</h2>
+            <p class="section-subtitle">Trusted by screenwriters, novelists, and producers at every stage of development.</p>
+            <div class="testimonial-grid">
+                <div class="testimonial">
+                    <blockquote>
+                        "The notes I received didn't just improve my screenplay&mdash;they completely
+                        reframed how I thought about the market for it. Within six months I had a producer attached."
+                    </blockquote>
+                    <div class="author">Screenwriter</div>
+                    <div class="role">Feature Film</div>
+                </div>
+                <div class="testimonial">
+                    <blockquote>
+                        "Most consultants tell you what's wrong. This is the rare one who also
+                        tells you exactly how to get it right&mdash;and who to take it to."
+                    </blockquote>
+                    <div class="author">Author</div>
+                    <div class="role">Debut Novel</div>
+                </div>
+                <div class="testimonial">
+                    <blockquote>
+                        "Sharp, constructive, and deeply informed by real industry experience.
+                        The marketability analysis alone was worth the investment."
+                    </blockquote>
+                    <div class="author">Independent Producer</div>
+                    <div class="role">Television Series</div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- CTA -->
+    <section class="cta-banner">
+        <h2>Ready to Move Your Project Forward?</h2>
+        <p>Whether you have a finished manuscript or a rough draft, I can help you sharpen the material and find its path to market.</p>
+        <a href="contact.html" class="btn btn-primary">Start a Conversation</a>
+    </section>
+
+    <footer>
+        <p>&copy; 2026 Story &amp; Strategy. All rights reserved.</p>
+    </footer>
 </body>
 </html>
