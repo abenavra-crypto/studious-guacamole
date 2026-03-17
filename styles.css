@@ -74,6 +74,15 @@ header .logo .logo-img {
   width: auto;
 }
 
+header .logo .logo-text {
+  font-family: var(--font-heading);
+  font-size: 1.4rem;
+  font-weight: 700;
+  color: var(--color-gold);
+  letter-spacing: 1px;
+  white-space: nowrap;
+}
+
 header nav ul {
   display: flex;
   gap: 2rem;
@@ -518,6 +527,22 @@ section {
   object-fit: cover;
   border: 4px solid var(--color-gold);
   box-shadow: 0 8px 30px rgba(0,0,0,0.15);
+}
+
+.about-headshot-placeholder {
+  width: 280px;
+  height: 280px;
+  border-radius: 50%;
+  border: 4px solid var(--color-gold);
+  box-shadow: 0 8px 30px rgba(0,0,0,0.15);
+  background: var(--color-secondary);
+  color: var(--color-gold);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: var(--font-heading);
+  font-size: 4rem;
+  font-weight: 700;
 }
 
 /* ===== Client Rolling Banner ===== */
