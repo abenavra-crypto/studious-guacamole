@@ -658,6 +658,45 @@ section {
   }
 }
 
+/* ===== Character Trait Game ===== */
+.trait-game-section {
+  background: var(--color-primary);
+  padding: 4rem 2rem;
+}
+
+.trait-game-section .section-title {
+  color: var(--color-gold);
+}
+
+.trait-game-section .section-subtitle {
+  color: rgba(255,255,255,0.7);
+}
+
+.trait-game-wrap {
+  display: flex;
+  justify-content: center;
+  margin: 0 auto 1rem;
+}
+
+.trait-game-wrap canvas {
+  border-radius: 50%;
+  box-shadow: 0 0 40px rgba(201,168,76,0.15);
+}
+
+.trait-current {
+  color: rgba(255,255,255,0.7);
+  font-size: 1.1rem;
+  margin-top: 1rem;
+}
+
+.trait-current span {
+  font-weight: 700;
+  color: var(--color-gold);
+  font-size: 1.3rem;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+}
+
 /* ===== Footer ===== */
 footer {
   background: var(--color-primary);
