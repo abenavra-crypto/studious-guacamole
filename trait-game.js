@@ -3,419 +3,507 @@
   if (!canvas) return;
   const ctx = canvas.getContext('2d');
 
-  // --- Configuration ---
-  const TRAITS = [
-    'sanguine','buoyant','convivial','misanthropic','solitary','affable',
-    'aloof','magnanimous','altruistic','self-serving','duplicitous','guileless',
-    'erudite','incurious','pedantic','sagacious','shrewd','obtuse','ascetic',
-    'relentless','dilettantish','effusive','reserved','sentimental','detached',
-    'passionate','dispassionate','imperious','deferential','domineering',
-    'submissive','authoritarian','egalitarian','skeptical','suspicious',
-    'trusting','guarded','ingenuous','disingenuous','audacious','timorous',
-    'reckless','circumspect','impetuous','deliberate','foolhardy','intrepid'
+  // --- Hero's Journey stages (clockwise from top-right) ---
+  const STAGES = [
+    { name: 'The Call to Adventure',           phase: 'Departure',  emotion: 'curious',     color: '#FFD700', expression: '!',  note: 'What if...?' },
+    { name: 'Refusal of the Call',             phase: 'Departure',  emotion: 'fearful',     color: '#A9A9A9', expression: '...',  note: 'No way...' },
+    { name: 'Supernatural Aid',                phase: 'Departure',  emotion: 'awestruck',   color: '#7B68EE', expression: '*',  note: 'A mentor appears!' },
+    { name: 'Crossing the First Threshold',    phase: 'Departure',  emotion: 'determined',  color: '#FF8C00', expression: '>',  note: 'No turning back' },
+    { name: 'The Belly of the Whale',          phase: 'Departure',  emotion: 'overwhelmed', color: '#4169E1', expression: '~',  note: 'Swallowed whole...' },
+    { name: 'The Road of Trials',              phase: 'Initiation', emotion: 'struggling',  color: '#DC143C', expression: 'X',  note: 'Test after test' },
+    { name: 'Meeting with the Goddess',        phase: 'Initiation', emotion: 'enchanted',   color: '#FF69B4', expression: '<3', note: 'Love found' },
+    { name: 'Woman as the Temptress',          phase: 'Initiation', emotion: 'conflicted',  color: '#8B008B', expression: '?!', note: 'Temptation pulls' },
+    { name: 'Atonement with the Father',       phase: 'Initiation', emotion: 'humbled',     color: '#DAA520', expression: '=',  note: 'Facing authority' },
+    { name: 'Apotheosis',                      phase: 'Initiation', emotion: 'transcendent', color: '#E6E6FA', expression: 'o',  note: 'Enlightenment' },
+    { name: 'The Ultimate Boon',               phase: 'Initiation', emotion: 'triumphant',  color: '#FFD700', expression: '!!', note: 'The prize!' },
+    { name: 'Refusal of the Return',           phase: 'Return',     emotion: 'reluctant',   color: '#778899', expression: '<-', note: 'Why go back?' },
+    { name: 'The Magic Flight',                phase: 'Return',     emotion: 'exhilarated', color: '#00CED1', expression: '>>',  note: 'Chase scene!' },
+    { name: 'Rescue from Without',             phase: 'Return',     emotion: 'grateful',    color: '#32CD32', expression: '+',  note: 'Help arrives' },
+    { name: 'Crossing the Return Threshold',   phase: 'Return',     emotion: 'resolute',    color: '#FF6347', expression: '><', note: 'Back to reality' },
+    { name: 'Master of the Two Worlds',        phase: 'Return',     emotion: 'wise',        color: '#9370DB', expression: '~o', note: 'Balance found' },
+    { name: 'Freedom to Live',                 phase: 'Return',     emotion: 'serene',      color: '#3CB371', expression: ':)', note: 'At peace' }
   ];
 
-  // Trait behaviour modifiers
-  const TRAIT_FX = {
-    sanguine:      { color: '#FFD700', speed: 1.3, size: 1.0, expression: '😄' },
-    buoyant:       { color: '#87CEEB', speed: 1.2, size: 0.9, expression: '🎈' },
-    convivial:     { color: '#FFA07A', speed: 1.1, size: 1.1, expression: '🥳' },
-    misanthropic:  { color: '#8B0000', speed: 0.7, size: 1.2, expression: '😠' },
-    solitary:      { color: '#4B0082', speed: 0.6, size: 0.85, expression: '🧘' },
-    affable:       { color: '#FF69B4', speed: 1.0, size: 1.0, expression: '😊' },
-    aloof:         { color: '#778899', speed: 0.8, size: 0.9, expression: '😐' },
-    magnanimous:   { color: '#DAA520', speed: 1.0, size: 1.3, expression: '👑' },
-    altruistic:    { color: '#32CD32', speed: 1.1, size: 1.1, expression: '💚' },
-    'self-serving':{ color: '#B22222', speed: 1.4, size: 1.0, expression: '😏' },
-    duplicitous:   { color: '#800080', speed: 1.2, size: 1.0, expression: '🎭' },
-    guileless:     { color: '#ADD8E6', speed: 0.9, size: 0.9, expression: '😇' },
-    erudite:       { color: '#2E8B57', speed: 0.8, size: 1.1, expression: '🎓' },
-    incurious:     { color: '#A9A9A9', speed: 0.5, size: 1.0, expression: '😴' },
-    pedantic:      { color: '#556B2F', speed: 0.7, size: 1.0, expression: '🤓' },
-    sagacious:     { color: '#6A5ACD', speed: 0.9, size: 1.15, expression: '🦉' },
-    shrewd:        { color: '#DC143C', speed: 1.3, size: 0.9, expression: '🦊' },
-    obtuse:        { color: '#808080', speed: 0.6, size: 1.2, expression: '😕' },
-    ascetic:       { color: '#D2B48C', speed: 0.7, size: 0.8, expression: '🧎' },
-    relentless:    { color: '#FF4500', speed: 1.6, size: 1.0, expression: '🔥' },
-    dilettantish:  { color: '#EE82EE', speed: 1.1, size: 0.95, expression: '🎨' },
-    effusive:      { color: '#FF1493', speed: 1.4, size: 1.15, expression: '💖' },
-    reserved:      { color: '#708090', speed: 0.6, size: 0.85, expression: '🤐' },
-    sentimental:   { color: '#DB7093', speed: 0.8, size: 1.05, expression: '🥹' },
-    detached:      { color: '#B0C4DE', speed: 0.7, size: 0.9, expression: '🧊' },
-    passionate:    { color: '#FF0000', speed: 1.5, size: 1.1, expression: '❤️‍🔥' },
-    dispassionate: { color: '#C0C0C0', speed: 0.6, size: 1.0, expression: '🗿' },
-    imperious:     { color: '#800020', speed: 1.1, size: 1.25, expression: '👊' },
-    deferential:   { color: '#98FB98', speed: 0.7, size: 0.8, expression: '🙇' },
-    domineering:   { color: '#8B0000', speed: 1.4, size: 1.3, expression: '💪' },
-    submissive:    { color: '#D3D3D3', speed: 0.5, size: 0.75, expression: '😣' },
-    authoritarian: { color: '#2F4F4F', speed: 1.2, size: 1.3, expression: '⚡' },
-    egalitarian:   { color: '#3CB371', speed: 1.0, size: 1.0, expression: '⚖️' },
-    skeptical:     { color: '#BDB76B', speed: 0.8, size: 1.0, expression: '🤨' },
-    suspicious:    { color: '#8B4513', speed: 0.9, size: 1.05, expression: '👀' },
-    trusting:      { color: '#87CEFA', speed: 1.0, size: 1.0, expression: '🤝' },
-    guarded:       { color: '#696969', speed: 0.7, size: 1.1, expression: '🛡️' },
-    ingenuous:     { color: '#FAFAD2', speed: 1.0, size: 0.9, expression: '🌸' },
-    disingenuous:  { color: '#483D8B', speed: 1.2, size: 1.0, expression: '🐍' },
-    audacious:     { color: '#FF6347', speed: 1.5, size: 1.15, expression: '🚀' },
-    timorous:      { color: '#DDA0DD', speed: 0.4, size: 0.75, expression: '😨' },
-    reckless:      { color: '#FF4500', speed: 1.7, size: 1.0, expression: '💥' },
-    circumspect:   { color: '#5F9EA0', speed: 0.6, size: 1.0, expression: '🔍' },
-    impetuous:     { color: '#FF8C00', speed: 1.6, size: 1.05, expression: '⚡' },
-    deliberate:    { color: '#4682B4', speed: 0.5, size: 1.1, expression: '🎯' },
-    foolhardy:     { color: '#FF69B4', speed: 1.7, size: 1.0, expression: '🤪' },
-    intrepid:      { color: '#228B22', speed: 1.4, size: 1.15, expression: '🦁' }
+  const PHASE_COLORS = {
+    Departure:  '#c9a84c',
+    Initiation: '#e94560',
+    Return:     '#3CB371'
   };
 
-  // --- Sizing ---
-  let W, H, cx, cy, arenaR, charR;
-  const BUBBLE_R = 28;
-  const BASE_CHAR_R = 14;
+  // --- State ---
+  let W, H, cx, cy, circleR;
+  let angle = -Math.PI / 2; // start at top
+  let speed = 0.004;
+  let currentStageIdx = -1;
+  let stageProgress = 0; // 0-1 within current stage arc
+  let celebrating = false;
+  let celebrateStart = 0;
+  let loopCount = 0;
+  let scribbleNotes = []; // floating note scraps
+  let noteTimer = 0;
+  let stickColor = '#c9a84c';
+  let currentEmotion = '';
+  let currentExpression = ':)';
+  let sparkles = [];
 
   function resize() {
     const rect = canvas.parentElement.getBoundingClientRect();
-    const dim = Math.min(rect.width - 20, 620);
+    const dim = Math.min(rect.width - 20, 700);
     canvas.width = dim;
     canvas.height = dim;
     W = canvas.width;
     H = canvas.height;
     cx = W / 2;
     cy = H / 2;
-    arenaR = (W / 2) - 50;
-    charR = BASE_CHAR_R;
+    circleR = (W / 2) - 90;
   }
 
-  // --- Bubbles ---
-  let bubbles = [];
-  function initBubbles() {
-    bubbles = TRAITS.map((trait, i) => {
-      const angle = (2 * Math.PI * i) / TRAITS.length;
-      return {
-        trait,
-        angle,
-        x: cx + Math.cos(angle) * arenaR,
-        y: cy + Math.sin(angle) * arenaR,
-        r: BUBBLE_R,
-        alive: true,
-        pop: 0 // pop animation progress 0..1
-      };
+  // --- Determine current stage from angle ---
+  function getStageIndex(a) {
+    // Normalize angle to 0..2PI starting from top (-PI/2)
+    let norm = a + Math.PI / 2;
+    if (norm < 0) norm += Math.PI * 2;
+    norm = norm % (Math.PI * 2);
+    const segAngle = (Math.PI * 2) / STAGES.length;
+    return Math.floor(norm / segAngle) % STAGES.length;
+  }
+
+  function getStageAngle(idx) {
+    const segAngle = (Math.PI * 2) / STAGES.length;
+    return -Math.PI / 2 + segAngle * idx;
+  }
+
+  // --- Scribble notes that float up ---
+  function spawnNote(x, y, text) {
+    scribbleNotes.push({
+      x, y, text,
+      life: 1,
+      vx: (Math.random() - 0.5) * 0.5,
+      vy: -0.8 - Math.random() * 0.5
     });
+    if (scribbleNotes.length > 15) scribbleNotes.shift();
   }
 
-  // --- Character ---
-  const char = {
-    x: 0, y: 0, vx: 2.5, vy: 1.8,
-    currentTrait: null,
-    traitColor: '#c9a84c',
-    speedMul: 1,
-    sizeMul: 1,
-    expression: '🙂',
-    trail: [],
-    absorbedTraits: []
-  };
-
-  function resetChar() {
-    char.x = cx;
-    char.y = cy;
-    char.vx = 2.5 * (Math.random() > 0.5 ? 1 : -1);
-    char.vy = 1.8 * (Math.random() > 0.5 ? 1 : -1);
-    char.currentTrait = null;
-    char.traitColor = '#c9a84c';
-    char.speedMul = 1;
-    char.sizeMul = 1;
-    char.expression = '🙂';
-    char.trail = [];
-    char.absorbedTraits = [];
+  function updateNotes() {
+    for (let i = scribbleNotes.length - 1; i >= 0; i--) {
+      const n = scribbleNotes[i];
+      n.x += n.vx;
+      n.y += n.vy;
+      n.life -= 0.008;
+      if (n.life <= 0) scribbleNotes.splice(i, 1);
+    }
   }
 
-  // --- Drawing helpers ---
-  function drawArena() {
-    // Outer glow
+  function drawNotes() {
+    ctx.save();
+    for (const n of scribbleNotes) {
+      ctx.globalAlpha = Math.max(0, n.life);
+      ctx.fillStyle = '#c9a84c';
+      ctx.font = 'italic 11px Georgia, serif';
+      ctx.textAlign = 'center';
+      ctx.fillText(n.text, n.x, n.y);
+    }
+    ctx.restore();
+  }
+
+  // --- Draw the journey circle with labels ---
+  function drawJourneyCircle() {
+    // Main circle
     ctx.save();
     ctx.beginPath();
-    ctx.arc(cx, cy, arenaR + 4, 0, Math.PI * 2);
-    ctx.strokeStyle = 'rgba(201,168,76,0.3)';
-    ctx.lineWidth = 8;
-    ctx.stroke();
-    ctx.closePath();
-
-    // Main ring
-    ctx.beginPath();
-    ctx.arc(cx, cy, arenaR, 0, Math.PI * 2);
-    ctx.strokeStyle = 'rgba(201,168,76,0.6)';
+    ctx.arc(cx, cy, circleR, 0, Math.PI * 2);
+    ctx.strokeStyle = 'rgba(201,168,76,0.4)';
     ctx.lineWidth = 2;
     ctx.stroke();
     ctx.closePath();
-    ctx.restore();
-  }
 
-  function drawBubble(b) {
-    if (!b.alive) {
-      if (b.pop < 1) {
-        // Pop animation
-        b.pop += 0.05;
-        const scale = 1 + b.pop * 0.8;
-        const alpha = 1 - b.pop;
-        ctx.save();
-        ctx.globalAlpha = alpha;
-        ctx.beginPath();
-        ctx.arc(b.x, b.y, b.r * scale, 0, Math.PI * 2);
-        ctx.fillStyle = 'rgba(201,168,76,0.3)';
-        ctx.fill();
-        ctx.closePath();
-        ctx.restore();
-      }
-      return;
-    }
-
-    // Floating motion
-    const wobble = Math.sin(Date.now() * 0.002 + b.angle * 3) * 3;
-    const bx = b.x + Math.cos(b.angle) * wobble;
-    const by = b.y + Math.sin(b.angle) * wobble;
-
-    // Bubble
-    ctx.save();
+    // Dividing line (Ordinary World / Unknown World)
     ctx.beginPath();
-    ctx.arc(bx, by, b.r, 0, Math.PI * 2);
-    const grad = ctx.createRadialGradient(bx - 5, by - 5, 2, bx, by, b.r);
-    grad.addColorStop(0, 'rgba(201,168,76,0.25)');
-    grad.addColorStop(1, 'rgba(26,26,46,0.7)');
-    ctx.fillStyle = grad;
-    ctx.fill();
-    ctx.strokeStyle = 'rgba(201,168,76,0.5)';
-    ctx.lineWidth = 1.5;
+    ctx.moveTo(cx - circleR, cy);
+    ctx.lineTo(cx + circleR, cy);
+    ctx.strokeStyle = 'rgba(201,168,76,0.2)';
+    ctx.lineWidth = 1;
     ctx.stroke();
     ctx.closePath();
 
-    // Text
-    ctx.fillStyle = '#c9a84c';
-    ctx.font = '600 9px "Segoe UI", sans-serif';
+    // World labels
+    ctx.fillStyle = 'rgba(201,168,76,0.25)';
+    ctx.font = 'italic 14px Georgia, serif';
     ctx.textAlign = 'center';
-    ctx.textBaseline = 'middle';
-    ctx.fillText(b.trait, bx, by);
-    ctx.restore();
-  }
+    ctx.fillText('Ordinary World', cx, cy - 14);
+    ctx.fillText('Unknown World', cx, cy + 26);
 
-  function drawCharacter() {
-    const r = charR * char.sizeMul;
-    const x = char.x;
-    const y = char.y;
+    // Phase arcs and labels
+    const phases = [
+      { name: 'Departure',  startIdx: 0,  endIdx: 4,  color: PHASE_COLORS.Departure },
+      { name: 'Initiation', startIdx: 5,  endIdx: 10, color: PHASE_COLORS.Initiation },
+      { name: 'Return',     startIdx: 11, endIdx: 16, color: PHASE_COLORS.Return }
+    ];
 
-    // Trail
-    ctx.save();
-    for (let i = 0; i < char.trail.length; i++) {
-      const t = char.trail[i];
-      const alpha = (i / char.trail.length) * 0.3;
+    for (const p of phases) {
+      const a1 = getStageAngle(p.startIdx);
+      const a2 = getStageAngle(p.endIdx + 1);
       ctx.beginPath();
-      ctx.arc(t.x, t.y, r * 0.5, 0, Math.PI * 2);
-      ctx.fillStyle = char.traitColor + Math.floor(alpha * 255).toString(16).padStart(2, '0');
+      ctx.arc(cx, cy, circleR + 8, a1, a2);
+      ctx.strokeStyle = p.color;
+      ctx.lineWidth = 4;
+      ctx.globalAlpha = 0.5;
+      ctx.stroke();
+      ctx.closePath();
+      ctx.globalAlpha = 1;
+
+      // Phase label
+      const midA = (a1 + a2) / 2;
+      const lx = cx + Math.cos(midA) * (circleR + 28);
+      const ly = cy + Math.sin(midA) * (circleR + 28);
+      ctx.fillStyle = p.color;
+      ctx.font = 'italic bold 13px Georgia, serif';
+      ctx.textAlign = 'center';
+      ctx.textBaseline = 'middle';
+      ctx.fillText(p.name, lx, ly);
+    }
+
+    // Stage markers and labels
+    const segAngle = (Math.PI * 2) / STAGES.length;
+    for (let i = 0; i < STAGES.length; i++) {
+      const a = getStageAngle(i) + segAngle / 2; // center of segment
+      const sx = cx + Math.cos(a) * circleR;
+      const sy = cy + Math.sin(a) * circleR;
+
+      // Dot on circle
+      const dotR = (i === currentStageIdx) ? 5 : 3;
+      ctx.beginPath();
+      ctx.arc(sx, sy, dotR, 0, Math.PI * 2);
+      ctx.fillStyle = (i === currentStageIdx) ? STAGES[i].color : 'rgba(201,168,76,0.4)';
       ctx.fill();
       ctx.closePath();
-    }
-    ctx.restore();
 
-    // Body (simple stick figure in a circle)
+      // Stage number + short name label
+      const labelR = circleR - 22;
+      const lx = cx + Math.cos(a) * labelR;
+      const ly = cy + Math.sin(a) * labelR;
+
+      ctx.save();
+      ctx.translate(lx, ly);
+      // Rotate text to follow circle, but keep readable
+      let rot = a + Math.PI / 2;
+      if (a > Math.PI / 2 && a < Math.PI * 1.5) rot += Math.PI;
+      // For top half, flip if needed
+      if (Math.cos(a) < -0.01 && !(a > Math.PI / 2 && a < Math.PI * 1.5)) rot += Math.PI;
+      ctx.rotate(rot);
+
+      ctx.fillStyle = (i === currentStageIdx) ? STAGES[i].color : 'rgba(201,168,76,0.35)';
+      ctx.font = (i === currentStageIdx) ? 'bold 9px "Segoe UI", sans-serif' : '8px "Segoe UI", sans-serif';
+      ctx.textAlign = 'center';
+      ctx.textBaseline = 'middle';
+
+      // Abbreviate long names
+      const shortName = (i + 1) + '. ' + STAGES[i].name;
+      ctx.fillText(shortName, 0, 0);
+      ctx.restore();
+    }
+
+    ctx.restore();
+  }
+
+  // --- Stick figure ---
+  function drawStickFigure(x, y, walkPhase, emotion, color, expr, scale) {
+    const s = scale || 1;
+    const headR = 7 * s;
+    const bodyLen = 16 * s;
+    const limbLen = 12 * s;
+    const t = walkPhase;
+
     ctx.save();
+    ctx.strokeStyle = color;
+    ctx.fillStyle = color;
+    ctx.lineWidth = 2 * s;
+    ctx.lineCap = 'round';
 
     // Glow
-    ctx.shadowColor = char.traitColor;
-    ctx.shadowBlur = 15;
+    ctx.shadowColor = color;
+    ctx.shadowBlur = 10;
 
-    // Head circle
+    // Head
     ctx.beginPath();
-    ctx.arc(x, y, r, 0, Math.PI * 2);
-    ctx.fillStyle = char.traitColor;
-    ctx.fill();
+    ctx.arc(x, y - bodyLen - headR, headR, 0, Math.PI * 2);
+    ctx.stroke();
     ctx.closePath();
 
+    // Expression inside head
     ctx.shadowBlur = 0;
-
-    // Expression emoji
-    ctx.font = `${Math.round(r * 1.4)}px serif`;
+    ctx.font = `${Math.round(headR * 1.1)}px "Segoe UI", sans-serif`;
     ctx.textAlign = 'center';
     ctx.textBaseline = 'middle';
-    ctx.fillText(char.expression, x, y + 1);
+    ctx.fillText(expr, x, y - bodyLen - headR + 1);
 
-    // Legs (two little lines showing movement direction)
-    const angle = Math.atan2(char.vy, char.vx);
-    const legLen = r * 1.2;
-    const legSpread = 0.4;
-    const kick = Math.sin(Date.now() * 0.01) * 0.3;
+    // Body
+    ctx.beginPath();
+    ctx.moveTo(x, y - bodyLen);
+    ctx.lineTo(x, y);
+    ctx.stroke();
 
-    ctx.strokeStyle = char.traitColor;
-    ctx.lineWidth = 2;
-    ctx.lineCap = 'round';
+    // Arms - one holds a pencil/notepad
+    const armSwing = Math.sin(t * 6) * 0.3;
+
+    // Left arm (swings)
+    ctx.beginPath();
+    ctx.moveTo(x, y - bodyLen * 0.65);
+    ctx.lineTo(
+      x - Math.cos(armSwing + 0.5) * limbLen,
+      y - bodyLen * 0.65 + Math.sin(armSwing + 0.5) * limbLen
+    );
+    ctx.stroke();
+
+    // Right arm (holds notepad - slightly forward)
+    const noteAngle = 0.3 + Math.sin(t * 3) * 0.1;
+    const handX = x + Math.cos(noteAngle) * limbLen;
+    const handY = y - bodyLen * 0.65 + Math.sin(noteAngle) * limbLen;
+    ctx.beginPath();
+    ctx.moveTo(x, y - bodyLen * 0.65);
+    ctx.lineTo(handX, handY);
+    ctx.stroke();
+
+    // Notepad in hand
+    ctx.fillStyle = '#f5f0e1';
+    ctx.fillRect(handX - 4 * s, handY - 6 * s, 10 * s, 12 * s);
+    ctx.strokeStyle = '#999';
+    ctx.lineWidth = 0.5;
+    ctx.strokeRect(handX - 4 * s, handY - 6 * s, 10 * s, 12 * s);
+    // Scribble lines on notepad
+    ctx.strokeStyle = '#666';
+    ctx.lineWidth = 0.5;
+    for (let i = 0; i < 3; i++) {
+      const ly = handY - 3 * s + i * 3 * s;
+      ctx.beginPath();
+      ctx.moveTo(handX - 2 * s, ly);
+      ctx.lineTo(handX + 4 * s, ly);
+      ctx.stroke();
+    }
+    // Pencil
+    ctx.strokeStyle = color;
+    ctx.lineWidth = 1.5;
+    const pencilWiggle = Math.sin(t * 12) * 2;
+    ctx.beginPath();
+    ctx.moveTo(handX + 5 * s, handY - 4 * s);
+    ctx.lineTo(handX + 9 * s + pencilWiggle, handY - 10 * s);
+    ctx.stroke();
+    // Pencil tip
+    ctx.fillStyle = '#FFD700';
+    ctx.beginPath();
+    ctx.arc(handX + 9 * s + pencilWiggle, handY - 10 * s, 1.5, 0, Math.PI * 2);
+    ctx.fill();
+
+    // Legs
+    const legSwing = Math.sin(t * 6) * 0.5;
+    ctx.strokeStyle = color;
+    ctx.lineWidth = 2 * s;
 
     // Left leg
     ctx.beginPath();
-    ctx.moveTo(x, y + r * 0.7);
+    ctx.moveTo(x, y);
     ctx.lineTo(
-      x + Math.cos(angle + Math.PI * 0.5 + legSpread + kick) * legLen,
-      y + r * 0.7 + Math.sin(angle + Math.PI * 0.5 + legSpread + kick) * legLen
+      x - Math.sin(legSwing) * limbLen * 0.7,
+      y + Math.cos(legSwing) * limbLen
     );
     ctx.stroke();
 
     // Right leg
     ctx.beginPath();
-    ctx.moveTo(x, y + r * 0.7);
-    ctx.lineTo(
-      x + Math.cos(angle + Math.PI * 0.5 - legSpread - kick) * legLen,
-      y + r * 0.7 + Math.sin(angle + Math.PI * 0.5 - legSpread - kick) * legLen
-    );
-    ctx.stroke();
-
-    // Arms
-    const armKick = Math.sin(Date.now() * 0.01 + 1) * 0.3;
-    ctx.beginPath();
     ctx.moveTo(x, y);
     ctx.lineTo(
-      x + Math.cos(angle - 0.6 + armKick) * legLen,
-      y + Math.sin(angle - 0.6 + armKick) * legLen
-    );
-    ctx.stroke();
-
-    ctx.beginPath();
-    ctx.moveTo(x, y);
-    ctx.lineTo(
-      x + Math.cos(angle + 0.6 - armKick) * legLen,
-      y + Math.sin(angle + 0.6 - armKick) * legLen
+      x + Math.sin(legSwing) * limbLen * 0.7,
+      y + Math.cos(-legSwing) * limbLen
     );
     ctx.stroke();
 
     ctx.restore();
   }
 
-  function drawHUD() {
-    // Current trait display
-    if (char.currentTrait) {
+  // --- Celebration ---
+  function drawCelebration() {
+    const elapsed = (Date.now() - celebrateStart) / 1000;
+
+    // Stick figure in center jumping
+    const jumpY = Math.abs(Math.sin(elapsed * 4)) * 20;
+    drawStickFigure(cx, cy + 20 - jumpY, elapsed, 'triumphant', '#FFD700', ':D', 1.5);
+
+    // Script pages flying out
+    for (let i = 0; i < 8; i++) {
+      const a = (elapsed * 0.5) + (i / 8) * Math.PI * 2;
+      const r = 40 + elapsed * 30 + i * 10;
+      const px = cx + Math.cos(a) * r;
+      const py = cy + Math.sin(a) * r - 20;
+      const alpha = Math.max(0, 1 - elapsed * 0.15 + 0.3);
+
       ctx.save();
-      ctx.fillStyle = '#c9a84c';
-      ctx.font = 'bold 16px "Segoe UI", sans-serif';
-      ctx.textAlign = 'center';
-      ctx.textBaseline = 'top';
-      ctx.fillText('Current trait: ' + char.currentTrait, cx, 12);
+      ctx.globalAlpha = alpha;
+      ctx.translate(px, py);
+      ctx.rotate(a + elapsed);
+
+      // Page
+      ctx.fillStyle = '#f5f0e1';
+      ctx.fillRect(-6, -8, 12, 16);
+      ctx.strokeStyle = '#999';
+      ctx.lineWidth = 0.5;
+      ctx.strokeRect(-6, -8, 12, 16);
+      // Lines on page
+      ctx.strokeStyle = '#aaa';
+      for (let j = 0; j < 4; j++) {
+        ctx.beginPath();
+        ctx.moveTo(-4, -5 + j * 4);
+        ctx.lineTo(4, -5 + j * 4);
+        ctx.stroke();
+      }
       ctx.restore();
     }
 
-    // Absorbed traits count
-    if (char.absorbedTraits.length > 0) {
+    // "SCRIPT COMPLETE!" text
+    ctx.save();
+    const textAlpha = Math.min(1, elapsed * 0.5);
+    ctx.globalAlpha = textAlpha;
+    ctx.fillStyle = '#FFD700';
+    ctx.font = 'bold 22px Georgia, serif';
+    ctx.textAlign = 'center';
+    ctx.textBaseline = 'middle';
+    ctx.shadowColor = '#FFD700';
+    ctx.shadowBlur = 20;
+    ctx.fillText('SCRIPT COMPLETE!', cx, cy - circleR * 0.5);
+    ctx.shadowBlur = 0;
+    ctx.font = '14px Georgia, serif';
+    ctx.fillStyle = 'rgba(201,168,76,0.8)';
+    ctx.fillText('The hero\'s journey is written.', cx, cy - circleR * 0.5 + 28);
+    ctx.restore();
+
+    // Sparkles
+    if (Math.random() < 0.3) {
+      sparkles.push({
+        x: cx + (Math.random() - 0.5) * circleR * 2,
+        y: cy + (Math.random() - 0.5) * circleR * 2,
+        life: 1,
+        size: 2 + Math.random() * 3
+      });
+    }
+    for (let i = sparkles.length - 1; i >= 0; i--) {
+      const sp = sparkles[i];
+      sp.life -= 0.02;
+      if (sp.life <= 0) { sparkles.splice(i, 1); continue; }
       ctx.save();
-      ctx.fillStyle = 'rgba(201,168,76,0.6)';
-      ctx.font = '12px "Segoe UI", sans-serif';
-      ctx.textAlign = 'center';
-      ctx.textBaseline = 'bottom';
-      ctx.fillText(
-        'Absorbed: ' + char.absorbedTraits.join(' → '),
-        cx, H - 8
-      );
+      ctx.globalAlpha = sp.life;
+      ctx.fillStyle = '#FFD700';
+      ctx.beginPath();
+      ctx.arc(sp.x, sp.y, sp.size * sp.life, 0, Math.PI * 2);
+      ctx.fill();
+      ctx.closePath();
       ctx.restore();
+    }
+
+    // Reset after celebration
+    if (elapsed > 6) {
+      celebrating = false;
+      loopCount++;
+      angle = -Math.PI / 2;
+      currentStageIdx = -1;
+      scribbleNotes = [];
+      sparkles = [];
     }
   }
 
-  // --- Physics ---
+  // --- Current stage info display ---
+  function drawStageInfo() {
+    if (currentStageIdx < 0 || currentStageIdx >= STAGES.length) return;
+    const stage = STAGES[currentStageIdx];
+
+    // Stage name at top
+    ctx.save();
+    ctx.fillStyle = stage.color;
+    ctx.font = 'bold 15px Georgia, serif';
+    ctx.textAlign = 'center';
+    ctx.textBaseline = 'top';
+    ctx.shadowColor = stage.color;
+    ctx.shadowBlur = 8;
+    ctx.fillText(stage.name, cx, 12);
+    ctx.shadowBlur = 0;
+
+    // Emotion label
+    ctx.fillStyle = 'rgba(255,255,255,0.5)';
+    ctx.font = 'italic 12px Georgia, serif';
+    ctx.fillText('feeling ' + stage.emotion, cx, 32);
+    ctx.restore();
+  }
+
+  // --- Update character position ---
   function update() {
-    const speed = char.speedMul;
-    char.x += char.vx * speed;
-    char.y += char.vy * speed;
+    if (celebrating) return;
 
-    // Trail
-    char.trail.push({ x: char.x, y: char.y });
-    if (char.trail.length > 12) char.trail.shift();
+    angle += speed;
 
-    // Bounce off arena circle
-    const dx = char.x - cx;
-    const dy = char.y - cy;
-    const dist = Math.sqrt(dx * dx + dy * dy);
-    const effectiveR = charR * char.sizeMul;
+    // Determine current stage
+    const newIdx = getStageIndex(angle);
+    if (newIdx !== currentStageIdx) {
+      currentStageIdx = newIdx;
+      const stage = STAGES[currentStageIdx];
+      stickColor = stage.color;
+      currentEmotion = stage.emotion;
+      currentExpression = stage.expression;
 
-    if (dist + effectiveR > arenaR) {
-      // Push back inside
-      const nx = dx / dist;
-      const ny = dy / dist;
-      char.x = cx + nx * (arenaR - effectiveR);
-      char.y = cy + ny * (arenaR - effectiveR);
-
-      // Reflect velocity
-      const dot = char.vx * nx + char.vy * ny;
-      char.vx -= 2 * dot * nx;
-      char.vy -= 2 * dot * ny;
-
-      // Small random perturbation so it doesn't loop
-      char.vx += (Math.random() - 0.5) * 0.5;
-      char.vy += (Math.random() - 0.5) * 0.5;
-    }
-
-    // Collision with bubbles
-    for (const b of bubbles) {
-      if (!b.alive) continue;
-      const wobble = Math.sin(Date.now() * 0.002 + b.angle * 3) * 3;
-      const bx = b.x + Math.cos(b.angle) * wobble;
-      const by = b.y + Math.sin(b.angle) * wobble;
-      const ddx = char.x - bx;
-      const ddy = char.y - by;
-      const d = Math.sqrt(ddx * ddx + ddy * ddy);
-      if (d < effectiveR + b.r) {
-        absorbTrait(b);
+      // Update HTML display
+      const el = document.getElementById('trait-display');
+      if (el) {
+        el.textContent = stage.name;
+        el.style.color = stage.color;
       }
     }
-  }
 
-  function absorbTrait(bubble) {
-    bubble.alive = false;
-    bubble.pop = 0;
-    char.currentTrait = bubble.trait;
-    char.absorbedTraits.push(bubble.trait);
-    // Keep last 5 for display
-    if (char.absorbedTraits.length > 5) char.absorbedTraits.shift();
-
-    const fx = TRAIT_FX[bubble.trait];
-    if (fx) {
-      char.traitColor = fx.color;
-      char.speedMul = fx.speed;
-      char.sizeMul = fx.size;
-      char.expression = fx.expression;
+    // Spawn scribble notes periodically
+    noteTimer += speed;
+    if (noteTimer > 0.08) {
+      noteTimer = 0;
+      const sx = cx + Math.cos(angle) * circleR;
+      const sy = cy + Math.sin(angle) * circleR;
+      const stage = STAGES[Math.max(0, currentStageIdx)];
+      spawnNote(sx + (Math.random() - 0.5) * 30, sy - 30, stage.note);
     }
 
-    // Update trait display below canvas
-    const el = document.getElementById('trait-display');
-    if (el) {
-      el.textContent = bubble.trait.toUpperCase();
-      el.style.color = fx ? fx.color : '#c9a84c';
-    }
-
-    // Check if all absorbed
-    if (bubbles.every(b => !b.alive)) {
-      setTimeout(() => {
-        initBubbles();
-        resetChar();
-        resize();
-      }, 2000);
+    // Check if completed full loop
+    const norm = angle + Math.PI / 2;
+    if (norm >= Math.PI * 2 * (loopCount + 1)) {
+      celebrating = true;
+      celebrateStart = Date.now();
+      sparkles = [];
     }
   }
 
   // --- Main loop ---
   function frame() {
     ctx.clearRect(0, 0, W, H);
-
-    // Dark bg
-    ctx.fillStyle = 'rgba(26,26,46,0.95)';
+    ctx.fillStyle = 'rgba(26,26,46,0.97)';
     ctx.fillRect(0, 0, W, H);
 
-    drawArena();
-    bubbles.forEach(drawBubble);
-    update();
-    drawCharacter();
-    drawHUD();
+    drawJourneyCircle();
+
+    if (celebrating) {
+      drawCelebration();
+    } else {
+      update();
+
+      // Character position on circle
+      const sx = cx + Math.cos(angle) * circleR;
+      const sy = cy + Math.sin(angle) * circleR;
+
+      // Draw stick figure
+      drawStickFigure(sx, sy - 18, angle / speed, currentEmotion, stickColor, currentExpression, 1);
+
+      updateNotes();
+      drawNotes();
+      drawStageInfo();
+    }
 
     requestAnimationFrame(frame);
   }
 
   // --- Init ---
   resize();
-  initBubbles();
-  resetChar();
-  window.addEventListener('resize', () => {
-    resize();
-    initBubbles();
-  });
+  window.addEventListener('resize', resize);
   frame();
 })();

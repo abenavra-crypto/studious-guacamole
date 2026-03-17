@@ -679,8 +679,9 @@ section {
 }
 
 .trait-game-wrap canvas {
-  border-radius: 50%;
+  border-radius: 12px;
   box-shadow: 0 0 40px rgba(201,168,76,0.15);
+  max-width: 100%;
 }
 
 .trait-current {
