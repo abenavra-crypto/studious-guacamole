@@ -206,116 +206,305 @@
     ctx.restore();
   }
 
-  // --- Stick figure ---
+  // --- Anime character ---
   function drawStickFigure(x, y, walkPhase, emotion, color, expr, scale) {
     const s = scale || 1;
-    const headR = 7 * s;
-    const bodyLen = 16 * s;
-    const limbLen = 12 * s;
     const t = walkPhase;
 
+    // Dimensions
+    const headR = 10 * s;
+    const bodyH = 18 * s;
+    const bodyW = 12 * s;
+    const legLen = 14 * s;
+    const armLen = 12 * s;
+    const headCY = y - bodyH - headR - 2 * s;
+
     ctx.save();
-    ctx.strokeStyle = color;
-    ctx.fillStyle = color;
-    ctx.lineWidth = 2 * s;
     ctx.lineCap = 'round';
+    ctx.lineJoin = 'round';
 
-    // Glow
+    // --- Glow behind character ---
     ctx.shadowColor = color;
-    ctx.shadowBlur = 10;
+    ctx.shadowBlur = 14;
 
-    // Head
+    // --- Hair (behind head) ---
+    ctx.fillStyle = '#2a1a3a';
     ctx.beginPath();
-    ctx.arc(x, y - bodyLen - headR, headR, 0, Math.PI * 2);
-    ctx.stroke();
-    ctx.closePath();
-
-    // Expression inside head
-    ctx.shadowBlur = 0;
-    ctx.font = `${Math.round(headR * 1.1)}px "Segoe UI", sans-serif`;
-    ctx.textAlign = 'center';
-    ctx.textBaseline = 'middle';
-    ctx.fillText(expr, x, y - bodyLen - headR + 1);
-
-    // Body
-    ctx.beginPath();
-    ctx.moveTo(x, y - bodyLen);
-    ctx.lineTo(x, y);
-    ctx.stroke();
-
-    // Arms - one holds a pencil/notepad
-    const armSwing = Math.sin(t * 6) * 0.3;
-
-    // Left arm (swings)
-    ctx.beginPath();
-    ctx.moveTo(x, y - bodyLen * 0.65);
-    ctx.lineTo(
-      x - Math.cos(armSwing + 0.5) * limbLen,
-      y - bodyLen * 0.65 + Math.sin(armSwing + 0.5) * limbLen
-    );
-    ctx.stroke();
-
-    // Right arm (holds notepad - slightly forward)
-    const noteAngle = 0.3 + Math.sin(t * 3) * 0.1;
-    const handX = x + Math.cos(noteAngle) * limbLen;
-    const handY = y - bodyLen * 0.65 + Math.sin(noteAngle) * limbLen;
-    ctx.beginPath();
-    ctx.moveTo(x, y - bodyLen * 0.65);
-    ctx.lineTo(handX, handY);
-    ctx.stroke();
-
-    // Notepad in hand
-    ctx.fillStyle = '#f5f0e1';
-    ctx.fillRect(handX - 4 * s, handY - 6 * s, 10 * s, 12 * s);
-    ctx.strokeStyle = '#999';
-    ctx.lineWidth = 0.5;
-    ctx.strokeRect(handX - 4 * s, handY - 6 * s, 10 * s, 12 * s);
-    // Scribble lines on notepad
-    ctx.strokeStyle = '#666';
-    ctx.lineWidth = 0.5;
-    for (let i = 0; i < 3; i++) {
-      const ly = handY - 3 * s + i * 3 * s;
+    ctx.ellipse(x, headCY - 2 * s, headR + 3 * s, headR + 5 * s, 0, 0, Math.PI * 2);
+    ctx.fill();
+    // Spiky anime hair tufts
+    const hairSpikes = [
+      [-8, -8, -13, -18, -4, -14],
+      [-3, -10, 0, -22, 3, -10],
+      [4, -8, 13, -18, 8, -9],
+      [-10, -3, -16, -8, -11, 1],
+      [10, -3, 16, -8, 11, 1]
+    ];
+    ctx.fillStyle = '#2a1a3a';
+    for (const sp of hairSpikes) {
       ctx.beginPath();
-      ctx.moveTo(handX - 2 * s, ly);
-      ctx.lineTo(handX + 4 * s, ly);
-      ctx.stroke();
+      ctx.moveTo(x + sp[0] * s, headCY + sp[1] * s);
+      ctx.quadraticCurveTo(x + sp[2] * s, headCY + sp[3] * s, x + sp[4] * s, headCY + sp[5] * s);
+      ctx.fill();
     }
-    // Pencil
-    ctx.strokeStyle = color;
-    ctx.lineWidth = 1.5;
-    const pencilWiggle = Math.sin(t * 12) * 2;
+
+    ctx.shadowBlur = 0;
+
+    // --- Face (skin) ---
+    ctx.fillStyle = '#fde8d0';
     ctx.beginPath();
-    ctx.moveTo(handX + 5 * s, handY - 4 * s);
-    ctx.lineTo(handX + 9 * s + pencilWiggle, handY - 10 * s);
+    ctx.arc(x, headCY, headR, 0, Math.PI * 2);
+    ctx.fill();
+    ctx.strokeStyle = '#e8c9a8';
+    ctx.lineWidth = 0.8 * s;
     ctx.stroke();
-    // Pencil tip
-    ctx.fillStyle = '#FFD700';
+
+    // --- Eyes (big anime style, change with emotion) ---
+    const eyeY = headCY + 1 * s;
+    const eyeSpacing = 4.5 * s;
+    const eyeW = 3.5 * s;
+    const eyeH = 4 * s;
+
+    // Eye whites
+    ctx.fillStyle = '#fff';
     ctx.beginPath();
-    ctx.arc(handX + 9 * s + pencilWiggle, handY - 10 * s, 1.5, 0, Math.PI * 2);
+    ctx.ellipse(x - eyeSpacing, eyeY, eyeW, eyeH, 0, 0, Math.PI * 2);
+    ctx.fill();
+    ctx.beginPath();
+    ctx.ellipse(x + eyeSpacing, eyeY, eyeW, eyeH, 0, 0, Math.PI * 2);
     ctx.fill();
 
-    // Legs
-    const legSwing = Math.sin(t * 6) * 0.5;
-    ctx.strokeStyle = color;
-    ctx.lineWidth = 2 * s;
-
-    // Left leg
+    // Irises (colored by current trait)
+    const irisR = 2.2 * s;
+    ctx.fillStyle = color;
     ctx.beginPath();
-    ctx.moveTo(x, y);
-    ctx.lineTo(
-      x - Math.sin(legSwing) * limbLen * 0.7,
-      y + Math.cos(legSwing) * limbLen
+    ctx.arc(x - eyeSpacing + 0.5 * s, eyeY + 0.5 * s, irisR, 0, Math.PI * 2);
+    ctx.fill();
+    ctx.beginPath();
+    ctx.arc(x + eyeSpacing + 0.5 * s, eyeY + 0.5 * s, irisR, 0, Math.PI * 2);
+    ctx.fill();
+
+    // Pupils
+    ctx.fillStyle = '#111';
+    ctx.beginPath();
+    ctx.arc(x - eyeSpacing + 0.5 * s, eyeY + 0.5 * s, 1 * s, 0, Math.PI * 2);
+    ctx.fill();
+    ctx.beginPath();
+    ctx.arc(x + eyeSpacing + 0.5 * s, eyeY + 0.5 * s, 1 * s, 0, Math.PI * 2);
+    ctx.fill();
+
+    // Eye shine
+    ctx.fillStyle = '#fff';
+    ctx.beginPath();
+    ctx.arc(x - eyeSpacing - 0.3 * s, eyeY - 1 * s, 0.9 * s, 0, Math.PI * 2);
+    ctx.fill();
+    ctx.beginPath();
+    ctx.arc(x + eyeSpacing - 0.3 * s, eyeY - 1 * s, 0.9 * s, 0, Math.PI * 2);
+    ctx.fill();
+
+    // Eyebrows (change with emotion)
+    ctx.strokeStyle = '#2a1a3a';
+    ctx.lineWidth = 1.5 * s;
+    const browLift = (emotion === 'fearful' || emotion === 'overwhelmed') ? -2 * s :
+                     (emotion === 'struggling' || emotion === 'conflicted') ? 1 * s :
+                     (emotion === 'curious' || emotion === 'awestruck') ? -1.5 * s : 0;
+    const browTilt = (emotion === 'struggling' || emotion === 'humbled') ? 1.5 * s :
+                     (emotion === 'curious') ? -1 * s : 0;
+    // Left brow
+    ctx.beginPath();
+    ctx.moveTo(x - eyeSpacing - eyeW, eyeY - eyeH - 1 * s + browLift + browTilt);
+    ctx.lineTo(x - eyeSpacing + eyeW, eyeY - eyeH - 1 * s + browLift - browTilt);
+    ctx.stroke();
+    // Right brow
+    ctx.beginPath();
+    ctx.moveTo(x + eyeSpacing - eyeW, eyeY - eyeH - 1 * s + browLift - browTilt);
+    ctx.lineTo(x + eyeSpacing + eyeW, eyeY - eyeH - 1 * s + browLift + browTilt);
+    ctx.stroke();
+
+    // --- Mouth (changes with emotion) ---
+    const mouthY = headCY + 5.5 * s;
+    ctx.strokeStyle = '#c47a5a';
+    ctx.lineWidth = 1.2 * s;
+    ctx.beginPath();
+    if (emotion === 'triumphant' || emotion === 'enchanted' || emotion === 'exhilarated' || emotion === 'serene' || emotion === 'grateful') {
+      // Happy smile
+      ctx.arc(x, mouthY - 1 * s, 3 * s, 0.1 * Math.PI, 0.9 * Math.PI);
+    } else if (emotion === 'fearful' || emotion === 'overwhelmed' || emotion === 'conflicted') {
+      // Small 'o' mouth
+      ctx.arc(x, mouthY, 1.5 * s, 0, Math.PI * 2);
+    } else if (emotion === 'struggling' || emotion === 'humbled' || emotion === 'reluctant') {
+      // Frown
+      ctx.arc(x, mouthY + 3 * s, 3 * s, 1.1 * Math.PI, 1.9 * Math.PI);
+    } else if (emotion === 'transcendent') {
+      // Serene closed smile
+      ctx.moveTo(x - 2.5 * s, mouthY);
+      ctx.quadraticCurveTo(x, mouthY + 2 * s, x + 2.5 * s, mouthY);
+    } else {
+      // Neutral
+      ctx.moveTo(x - 2 * s, mouthY);
+      ctx.lineTo(x + 2 * s, mouthY);
+    }
+    ctx.stroke();
+
+    // Blush for certain emotions
+    if (emotion === 'enchanted' || emotion === 'grateful' || emotion === 'serene') {
+      ctx.fillStyle = 'rgba(255,150,150,0.3)';
+      ctx.beginPath();
+      ctx.ellipse(x - eyeSpacing - 1 * s, eyeY + 3 * s, 2.5 * s, 1.5 * s, 0, 0, Math.PI * 2);
+      ctx.fill();
+      ctx.beginPath();
+      ctx.ellipse(x + eyeSpacing + 1 * s, eyeY + 3 * s, 2.5 * s, 1.5 * s, 0, 0, Math.PI * 2);
+      ctx.fill();
+    }
+
+    // --- Hair bangs (on top of face) ---
+    ctx.fillStyle = '#2a1a3a';
+    ctx.beginPath();
+    ctx.moveTo(x - headR * 0.7, headCY - headR * 0.3);
+    ctx.quadraticCurveTo(x - 3 * s, headCY - headR - 2 * s, x, headCY - headR * 0.5);
+    ctx.quadraticCurveTo(x + 3 * s, headCY - headR - 2 * s, x + headR * 0.7, headCY - headR * 0.3);
+    ctx.quadraticCurveTo(x + headR * 0.3, headCY - headR * 0.6, x, headCY - headR * 0.35);
+    ctx.quadraticCurveTo(x - headR * 0.3, headCY - headR * 0.6, x - headR * 0.7, headCY - headR * 0.3);
+    ctx.fill();
+
+    // --- Body / Jacket ---
+    const shoulderY = y - bodyH;
+    const hipY = y;
+
+    // Torso
+    ctx.fillStyle = '#3a3a5c'; // dark jacket
+    ctx.beginPath();
+    ctx.moveTo(x - bodyW * 0.7, shoulderY);
+    ctx.lineTo(x + bodyW * 0.7, shoulderY);
+    ctx.lineTo(x + bodyW * 0.5, hipY);
+    ctx.lineTo(x - bodyW * 0.5, hipY);
+    ctx.closePath();
+    ctx.fill();
+
+    // Jacket lapel detail
+    ctx.strokeStyle = color;
+    ctx.lineWidth = 1 * s;
+    ctx.beginPath();
+    ctx.moveTo(x, shoulderY + 1 * s);
+    ctx.lineTo(x, hipY);
+    ctx.stroke();
+
+    // Collar
+    ctx.fillStyle = '#f5f0e1';
+    ctx.beginPath();
+    ctx.moveTo(x - 3 * s, shoulderY);
+    ctx.lineTo(x, shoulderY + 4 * s);
+    ctx.lineTo(x + 3 * s, shoulderY);
+    ctx.closePath();
+    ctx.fill();
+
+    // --- Arms ---
+    const armSwing = Math.sin(t * 6) * 0.3;
+    ctx.strokeStyle = '#3a3a5c';
+    ctx.lineWidth = 3.5 * s;
+
+    // Left arm (swings naturally)
+    const lArmEndX = x - bodyW * 0.7 - Math.cos(armSwing + 0.4) * armLen;
+    const lArmEndY = shoulderY + Math.sin(armSwing + 0.4) * armLen * 0.5 + armLen * 0.7;
+    ctx.beginPath();
+    ctx.moveTo(x - bodyW * 0.7, shoulderY + 2 * s);
+    ctx.quadraticCurveTo(
+      x - bodyW * 0.9, shoulderY + armLen * 0.5,
+      lArmEndX, lArmEndY
     );
+    ctx.stroke();
+    // Hand (skin)
+    ctx.fillStyle = '#fde8d0';
+    ctx.beginPath();
+    ctx.arc(lArmEndX, lArmEndY, 2.5 * s, 0, Math.PI * 2);
+    ctx.fill();
+
+    // Right arm (holds notepad)
+    const noteAngle = 0.3 + Math.sin(t * 3) * 0.08;
+    const rArmEndX = x + bodyW * 0.7 + Math.cos(noteAngle) * armLen * 0.8;
+    const rArmEndY = shoulderY + 2 * s + Math.sin(noteAngle) * armLen * 0.5 + armLen * 0.5;
+    ctx.strokeStyle = '#3a3a5c';
+    ctx.beginPath();
+    ctx.moveTo(x + bodyW * 0.7, shoulderY + 2 * s);
+    ctx.quadraticCurveTo(
+      x + bodyW * 0.9, shoulderY + armLen * 0.4,
+      rArmEndX, rArmEndY
+    );
+    ctx.stroke();
+    // Hand
+    ctx.fillStyle = '#fde8d0';
+    ctx.beginPath();
+    ctx.arc(rArmEndX, rArmEndY, 2.5 * s, 0, Math.PI * 2);
+    ctx.fill();
+
+    // Notepad
+    ctx.fillStyle = '#f5f0e1';
+    ctx.save();
+    ctx.translate(rArmEndX + 2 * s, rArmEndY - 3 * s);
+    ctx.rotate(0.15);
+    ctx.fillRect(-5 * s, -7 * s, 11 * s, 14 * s);
+    ctx.strokeStyle = '#bbb';
+    ctx.lineWidth = 0.6 * s;
+    ctx.strokeRect(-5 * s, -7 * s, 11 * s, 14 * s);
+    // Scribble lines
+    ctx.strokeStyle = '#888';
+    ctx.lineWidth = 0.5 * s;
+    for (let i = 0; i < 4; i++) {
+      const ly = -4 * s + i * 3 * s;
+      ctx.beginPath();
+      ctx.moveTo(-3 * s, ly);
+      ctx.lineTo(4 * s, ly);
+      ctx.stroke();
+    }
+    ctx.restore();
+
+    // Pencil
+    const pencilWiggle = Math.sin(t * 12) * 1.5;
+    ctx.strokeStyle = '#e8c33e';
+    ctx.lineWidth = 2 * s;
+    ctx.beginPath();
+    ctx.moveTo(rArmEndX + 7 * s, rArmEndY - 5 * s);
+    ctx.lineTo(rArmEndX + 12 * s + pencilWiggle, rArmEndY - 14 * s);
+    ctx.stroke();
+    // Pencil tip
+    ctx.fillStyle = '#333';
+    ctx.beginPath();
+    ctx.moveTo(rArmEndX + 12 * s + pencilWiggle, rArmEndY - 14 * s);
+    ctx.lineTo(rArmEndX + 13 * s + pencilWiggle, rArmEndY - 16.5 * s);
+    ctx.lineTo(rArmEndX + 11 * s + pencilWiggle, rArmEndY - 14.5 * s);
+    ctx.closePath();
+    ctx.fill();
+
+    // --- Legs ---
+    const legSwing = Math.sin(t * 6) * 0.45;
+    ctx.lineWidth = 3.5 * s;
+
+    // Pants
+    ctx.strokeStyle = '#2a2a44';
+    // Left leg
+    const lFootX = x - 3 * s - Math.sin(legSwing) * legLen * 0.5;
+    const lFootY = hipY + Math.cos(legSwing) * legLen;
+    ctx.beginPath();
+    ctx.moveTo(x - bodyW * 0.3, hipY);
+    ctx.quadraticCurveTo(x - bodyW * 0.4, hipY + legLen * 0.5, lFootX, lFootY);
     ctx.stroke();
 
     // Right leg
+    const rFootX = x + 3 * s + Math.sin(legSwing) * legLen * 0.5;
+    const rFootY = hipY + Math.cos(-legSwing) * legLen;
     ctx.beginPath();
-    ctx.moveTo(x, y);
-    ctx.lineTo(
-      x + Math.sin(legSwing) * limbLen * 0.7,
-      y + Math.cos(-legSwing) * limbLen
-    );
+    ctx.moveTo(x + bodyW * 0.3, hipY);
+    ctx.quadraticCurveTo(x + bodyW * 0.4, hipY + legLen * 0.5, rFootX, rFootY);
     ctx.stroke();
+
+    // Shoes
+    ctx.fillStyle = '#1a1a2e';
+    ctx.beginPath();
+    ctx.ellipse(lFootX + 1.5 * s, lFootY + 1 * s, 4 * s, 2 * s, 0, 0, Math.PI * 2);
+    ctx.fill();
+    ctx.beginPath();
+    ctx.ellipse(rFootX + 1.5 * s, rFootY + 1 * s, 4 * s, 2 * s, 0, 0, Math.PI * 2);
+    ctx.fill();
 
     ctx.restore();
   }
