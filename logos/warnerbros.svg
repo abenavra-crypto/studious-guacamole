@@ -1,10 +1,7 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 120 100">
-  <!-- Shield shape -->
-  <path d="M60 5 L110 25 L110 60 C110 85, 85 98, 60 98 C35 98, 10 85, 10 60 L10 25 Z" fill="#004B87" stroke="#B4975A" stroke-width="3"/>
-  <!-- Inner shield -->
-  <path d="M60 15 L100 30 L100 58 C100 78, 80 90, 60 90 C40 90, 20 78, 20 58 L20 30 Z" fill="#004B87" stroke="#B4975A" stroke-width="1.5"/>
-  <!-- WB text -->
-  <text x="60" y="58" text-anchor="middle" font-family="Georgia, serif" font-size="36" font-weight="bold" fill="#B4975A">WB</text>
-  <!-- Warner Bros text below shield -->
-  <text x="60" y="72" text-anchor="middle" font-family="Georgia, serif" font-size="8" fill="#B4975A" letter-spacing="1">WARNER BROS.</text>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 80 90">
+  <!-- WB Shield -->
+  <path d="M40 2 L76 20 L76 52 C76 75, 58 88, 40 88 C22 88, 4 75, 4 52 L4 20 Z" fill="#004B93" stroke="#9D8442" stroke-width="2.5"/>
+  <path d="M40 10 L68 24 L68 50 C68 69, 54 80, 40 80 C26 80, 12 69, 12 50 L12 24 Z" fill="none" stroke="#9D8442" stroke-width="1.5"/>
+  <!-- WB letters -->
+  <text x="40" y="52" text-anchor="middle" font-family="Georgia, 'Times New Roman', serif" font-size="30" font-weight="bold" fill="#9D8442" letter-spacing="1">WB</text>
 </svg>

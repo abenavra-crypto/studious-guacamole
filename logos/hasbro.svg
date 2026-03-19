@@ -1,5 +1,5 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 60">
-  <text x="100" y="44" text-anchor="middle" font-family="'Helvetica Neue', Arial, sans-serif" font-size="40" font-weight="900" fill="#1a1a2e" letter-spacing="3">HASBRO</text>
-  <!-- Smile arc under text -->
-  <path d="M55 50 Q100 58 145 50" stroke="#FF0000" stroke-width="3" fill="none" stroke-linecap="round"/>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 220 55">
+  <!-- Hasbro wordmark with red underline -->
+  <text x="110" y="38" text-anchor="middle" font-family="'Helvetica Neue', Helvetica, Arial, sans-serif" font-size="40" font-weight="900" fill="#1a1a2e" letter-spacing="2" text-rendering="geometricPrecision">HASBRO</text>
+  <line x1="35" y1="47" x2="185" y2="47" stroke="#D40000" stroke-width="3" stroke-linecap="round"/>
 </svg>

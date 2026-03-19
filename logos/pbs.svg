@@ -1,8 +1,11 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 120 80">
-  <!-- Head silhouette circle -->
-  <circle cx="60" cy="32" r="28" fill="none" stroke="#1a1a2e" stroke-width="3"/>
-  <!-- Simplified head profile facing right -->
-  <path d="M52 18 C52 14, 58 10, 62 12 C68 14, 72 18, 72 24 C72 28, 70 30, 68 32 C72 34, 74 36, 72 40 C70 44, 64 46, 58 46 C54 46, 50 44, 50 40 L50 22 C50 20, 51 18, 52 18Z" fill="#1a1a2e"/>
-  <!-- PBS text -->
-  <text x="60" y="72" text-anchor="middle" font-family="'Helvetica Neue', Arial, sans-serif" font-size="22" font-weight="900" fill="#1a1a2e" letter-spacing="6">PBS</text>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 50">
+  <!-- PBS circle with head silhouettes -->
+  <circle cx="25" cy="25" r="23" fill="none" stroke="#1a1a2e" stroke-width="2.5"/>
+  <!-- Simplified PBS everyman profile facing right -->
+  <ellipse cx="23" cy="22" rx="8" ry="10" fill="#1a1a2e"/>
+  <ellipse cx="27" cy="17" rx="6" ry="7" fill="#1a1a2e"/>
+  <!-- Negative space face: eye area -->
+  <ellipse cx="29" cy="18" rx="1.5" ry="1.2" fill="white"/>
+  <!-- PBS letters -->
+  <text x="68" y="33" text-anchor="middle" font-family="'Helvetica Neue', Helvetica, Arial, sans-serif" font-size="26" font-weight="900" fill="#1a1a2e" letter-spacing="2">PBS</text>
 </svg>

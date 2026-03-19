@@ -1,4 +1,3 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 60">
-  <text x="100" y="40" text-anchor="middle" font-family="'Helvetica Neue', Arial, sans-serif" font-size="34" font-weight="800" fill="#0072CE" letter-spacing="1">BLUE ZOO</text>
-  <text x="100" y="55" text-anchor="middle" font-family="'Helvetica Neue', Arial, sans-serif" font-size="10" fill="#0072CE" letter-spacing="4">ANIMATION</text>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 50">
+  <text x="100" y="34" text-anchor="middle" font-family="'Helvetica Neue', Helvetica, Arial, sans-serif" font-size="32" font-weight="800" fill="#0072CE" letter-spacing="2">BLUE ZOO</text>
 </svg>
