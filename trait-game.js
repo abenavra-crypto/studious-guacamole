@@ -55,7 +55,7 @@
     H = canvas.height;
     cx = W / 2;
     cy = H / 2;
-    circleR = (W / 2) - 90;
+    circleR = (W / 2) - 100;
   }
 
   // --- Determine current stage from angle ---
@@ -154,8 +154,8 @@
 
       // Phase label
       const midA = (a1 + a2) / 2;
-      const lx = cx + Math.cos(midA) * (circleR + 28);
-      const ly = cy + Math.sin(midA) * (circleR + 28);
+      const lx = cx + Math.cos(midA) * (circleR + 38);
+      const ly = cy + Math.sin(midA) * (circleR + 38);
       ctx.fillStyle = p.color;
       ctx.font = 'italic bold 13px Georgia, serif';
       ctx.textAlign = 'center';
@@ -163,44 +163,31 @@
       ctx.fillText(p.name, lx, ly);
     }
 
-    // Stage markers and labels
+    // Stage markers (dots only — labels shown in HUD)
     const segAngle = (Math.PI * 2) / STAGES.length;
     for (let i = 0; i < STAGES.length; i++) {
-      const a = getStageAngle(i) + segAngle / 2; // center of segment
+      const a = getStageAngle(i) + segAngle / 2;
       const sx = cx + Math.cos(a) * circleR;
       const sy = cy + Math.sin(a) * circleR;
 
       // Dot on circle
-      const dotR = (i === currentStageIdx) ? 5 : 3;
+      const isActive = (i === currentStageIdx);
+      const dotR = isActive ? 6 : 3;
       ctx.beginPath();
       ctx.arc(sx, sy, dotR, 0, Math.PI * 2);
-      ctx.fillStyle = (i === currentStageIdx) ? STAGES[i].color : 'rgba(201,168,76,0.4)';
+      ctx.fillStyle = isActive ? STAGES[i].color : 'rgba(201,168,76,0.4)';
       ctx.fill();
       ctx.closePath();
 
-      // Stage number + short name label
-      const labelR = circleR - 22;
-      const lx = cx + Math.cos(a) * labelR;
-      const ly = cy + Math.sin(a) * labelR;
-
-      ctx.save();
-      ctx.translate(lx, ly);
-      // Rotate text to follow circle, but keep readable
-      let rot = a + Math.PI / 2;
-      if (a > Math.PI / 2 && a < Math.PI * 1.5) rot += Math.PI;
-      // For top half, flip if needed
-      if (Math.cos(a) < -0.01 && !(a > Math.PI / 2 && a < Math.PI * 1.5)) rot += Math.PI;
-      ctx.rotate(rot);
-
-      ctx.fillStyle = (i === currentStageIdx) ? STAGES[i].color : 'rgba(201,168,76,0.35)';
-      ctx.font = (i === currentStageIdx) ? 'bold 9px "Segoe UI", sans-serif' : '8px "Segoe UI", sans-serif';
+      // Stage number next to dot (small, outside circle)
+      const numR = circleR + 18;
+      const nx = cx + Math.cos(a) * numR;
+      const ny = cy + Math.sin(a) * numR;
+      ctx.fillStyle = isActive ? STAGES[i].color : 'rgba(201,168,76,0.25)';
+      ctx.font = isActive ? 'bold 10px "Segoe UI", sans-serif' : '9px "Segoe UI", sans-serif';
       ctx.textAlign = 'center';
       ctx.textBaseline = 'middle';
-
-      // Abbreviate long names
-      const shortName = (i + 1) + '. ' + STAGES[i].name;
-      ctx.fillText(shortName, 0, 0);
-      ctx.restore();
+      ctx.fillText(i + 1, nx, ny);
     }
 
     ctx.restore();
