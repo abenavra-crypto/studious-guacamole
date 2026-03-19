@@ -1,0 +1,5 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 260 70">
+  <!-- Orange splat background -->
+  <path d="M20 35 C15 15, 35 5, 50 10 C60 2, 80 0, 95 8 C110 2, 130 0, 145 5 C155 0, 175 0, 190 8 C205 2, 225 5, 235 15 C245 25, 248 40, 240 50 C245 60, 235 68, 220 65 C210 70, 190 70, 175 65 C160 72, 140 72, 125 65 C110 72, 90 70, 75 65 C60 70, 40 68, 30 60 C15 62, 8 52, 12 42 C5 35, 10 25, 20 35Z" fill="#FF6600"/>
+  <text x="130" y="48" text-anchor="middle" font-family="'Helvetica Neue', Arial, sans-serif" font-size="28" font-weight="900" fill="white" letter-spacing="1">Nickelodeon</text>
+</svg>

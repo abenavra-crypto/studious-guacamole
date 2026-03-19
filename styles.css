@@ -634,19 +634,22 @@ section {
 
 .marquee-track {
   display: flex;
-  gap: 3rem;
-  animation: marquee-scroll 30s linear infinite;
+  gap: 4rem;
+  align-items: center;
+  animation: marquee-scroll 35s linear infinite;
   width: max-content;
 }
 
-.marquee-item {
-  font-family: var(--font-heading);
-  font-size: 1.5rem;
-  font-weight: 700;
-  color: var(--color-primary);
-  opacity: 0.6;
-  white-space: nowrap;
-  letter-spacing: 1px;
+.marquee-logo {
+  height: 45px;
+  width: auto;
+  opacity: 0.7;
+  transition: opacity var(--transition);
+  flex-shrink: 0;
+}
+
+.marquee-logo:hover {
+  opacity: 1;
 }
 
 @keyframes marquee-scroll {
