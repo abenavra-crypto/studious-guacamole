@@ -1,0 +1,11 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 50">
+  <!-- PBS circle with head silhouettes -->
+  <circle cx="25" cy="25" r="23" fill="none" stroke="#1a1a2e" stroke-width="2.5"/>
+  <!-- Simplified PBS everyman profile facing right -->
+  <ellipse cx="23" cy="22" rx="8" ry="10" fill="#1a1a2e"/>
+  <ellipse cx="27" cy="17" rx="6" ry="7" fill="#1a1a2e"/>
+  <!-- Negative space face: eye area -->
+  <ellipse cx="29" cy="18" rx="1.5" ry="1.2" fill="white"/>
+  <!-- PBS letters -->
+  <text x="68" y="33" text-anchor="middle" font-family="'Helvetica Neue', Helvetica, Arial, sans-serif" font-size="26" font-weight="900" fill="#1a1a2e" letter-spacing="2">PBS</text>
+</svg>

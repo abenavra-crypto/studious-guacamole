@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="styles.css">
+    <title>Contact | The Story Engine</title>
+    <meta name="description" content="Get in touch to discuss your script, manuscript, or creative project. Submit your material for evaluation.">
+</head>
+<body>
+    <header>
+        <div class="header-inner">
+            <div class="logo">
+                <a href="index.html">
+                    <span class="logo-badge">
+                        <span class="logo-mark">
+                            <span class="logo-main">The Story Engine</span>
+                            <span class="logo-bottom">Script Consulting</span>
+                        </span>
+                    </span>
+                </a>
+            </div>
+            <button class="nav-toggle" aria-label="Toggle navigation" onclick="document.querySelector('nav ul').classList.toggle('open')">&#9776;</button>
+            <nav>
+                <ul>
+                    <li><a href="index.html">Home</a></li>
+                    <li><a href="services.html">Services</a></li>
+                    <li><a href="portfolio.html">Portfolio</a></li>
+                    <li><a href="about.html">About</a></li>
+                    <li><a href="contact.html" class="active">Contact</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <!-- Page Hero -->
+    <section class="hero" style="padding: 4rem 2rem;">
+        <h1>Get in Touch</h1>
+        <p class="tagline">Ready to get expert eyes on your material? Tell me about your project.</p>
+    </section>
+
+    <!-- Contact Form & Info -->
+    <section>
+        <div class="container contact-grid">
+            <div class="contact-info">
+                <h3>Let's Talk About Your Project</h3>
+                <p>
+                    Fill out the form and I'll get back to you within 48 hours. If you prefer,
+                    you can also reach me directly via email.
+                </p>
+
+                <div class="contact-detail">
+                    <span class="label">Email</span>
+                    <span>hello@thestoryengine.com</span>
+                </div>
+                <div class="contact-detail">
+                    <span class="label">Based</span>
+                    <span>Los Angeles, CA</span>
+                </div>
+                <div class="contact-detail">
+                    <span class="label">Hours</span>
+                    <span>Mon&ndash;Fri, 9 AM&ndash;6 PM PT</span>
+                </div>
+
+                <div style="margin-top:2rem;">
+                    <h3>What to Include</h3>
+                    <ul style="list-style:disc; padding-left:1.5rem; color:#555; margin-top:0.5rem;">
+                        <li>A brief description of your project (logline or summary)</li>
+                        <li>The type of material (screenplay, novel, treatment, etc.)</li>
+                        <li>Current stage of development (first draft, polished draft, etc.)</li>
+                        <li>What you're looking for (quality notes, marketability analysis, or both)</li>
+                        <li>Any deadlines or time constraints</li>
+                    </ul>
+                </div>
+            </div>
+
+            <form class="contact-form" action="#" method="POST">
+                <div class="form-group">
+                    <label for="name">Name</label>
+                    <input type="text" id="name" name="name" placeholder="Your full name" required>
+                </div>
+                <div class="form-group">
+                    <label for="email">Email</label>
+                    <input type="email" id="email" name="email" placeholder="your@email.com" required>
+                </div>
+                <div class="form-group">
+                    <label for="project-type">Project Type</label>
+                    <select id="project-type" name="project-type" required>
+                        <option value="" disabled selected>Select a project type</option>
+                        <option value="screenplay">Screenplay</option>
+                        <option value="tv-pilot">TV Pilot / Series</option>
+                        <option value="novel">Novel / Manuscript</option>
+                        <option value="non-fiction">Non-Fiction / Memoir</option>
+                        <option value="treatment">Treatment / Pitch Deck</option>
+                        <option value="other">Other</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="service">Service Needed</label>
+                    <select id="service" name="service" required>
+                        <option value="" disabled selected>What are you looking for?</option>
+                        <option value="quality">Quality Analysis</option>
+                        <option value="marketability">Marketability Assessment</option>
+                        <option value="both">Both (Quality + Marketability)</option>
+                        <option value="consultation">General Consultation</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="message">Tell Me About Your Project</label>
+                    <textarea id="message" name="message" placeholder="Brief description, current stage, and any specific questions you have..." required></textarea>
+                </div>
+                <button type="submit" class="btn btn-primary">Send Message</button>
+            </form>
+        </div>
+    </section>
+
+    <!-- FAQ -->
+    <section style="background: var(--color-light);">
+        <div class="container">
+            <h2 class="section-title">Frequently Asked Questions</h2>
+            <div class="two-col" style="gap:2rem;">
+                <div class="text">
+                    <h3 style="font-family:var(--font-heading); color:var(--color-primary); margin-bottom:0.5rem;">How long does a review take?</h3>
+                    <p style="color:#555; margin-bottom:1.5rem;">
+                        Typical turnaround is 10&ndash;14 business days for a full quality and
+                        marketability report. Rush service is available for an additional fee.
+                    </p>
+                    <h3 style="font-family:var(--font-heading); color:var(--color-primary); margin-bottom:0.5rem;">What formats do you accept?</h3>
+                    <p style="color:#555; margin-bottom:1.5rem;">
+                        PDF is preferred for scripts and manuscripts. I also accept Final Draft (.fdx),
+                        Word documents, and Google Docs links.
+                    </p>
+                </div>
+                <div class="text">
+                    <h3 style="font-family:var(--font-heading); color:var(--color-primary); margin-bottom:0.5rem;">Do you sign NDAs?</h3>
+                    <p style="color:#555; margin-bottom:1.5rem;">
+                        Absolutely. I treat all submitted material as confidential and am happy
+                        to sign an NDA before you share your work.
+                    </p>
+                    <h3 style="font-family:var(--font-heading); color:var(--color-primary); margin-bottom:0.5rem;">What are your rates?</h3>
+                    <p style="color:#555; margin-bottom:1.5rem;">
+                        Rates depend on the type and length of material and the services requested.
+                        Reach out and I'll provide a custom quote within 48 hours.
+                    </p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <footer>
+        <p>&copy; 2026 The Story Engine. All rights reserved.</p>
+    </footer>
+</body>
+</html>

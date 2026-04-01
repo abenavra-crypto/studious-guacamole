@@ -1,0 +1,7 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 280 60" fill="#1a1a2e">
+  <!-- Walt Disney wordmark approximation -->
+  <defs>
+    <style>@import url('https://fonts.googleapis.com/css2?family=Satisfy&amp;display=swap');</style>
+  </defs>
+  <text x="140" y="48" text-anchor="middle" font-family="Satisfy, 'Brush Script MT', 'Segoe Script', cursive" font-size="52" letter-spacing="2">Walt Disney</text>
+</svg>

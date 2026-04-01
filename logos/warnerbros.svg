@@ -1,0 +1,7 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 80 90">
+  <!-- WB Shield -->
+  <path d="M40 2 L76 20 L76 52 C76 75, 58 88, 40 88 C22 88, 4 75, 4 52 L4 20 Z" fill="#004B93" stroke="#9D8442" stroke-width="2.5"/>
+  <path d="M40 10 L68 24 L68 50 C68 69, 54 80, 40 80 C26 80, 12 69, 12 50 L12 24 Z" fill="none" stroke="#9D8442" stroke-width="1.5"/>
+  <!-- WB letters -->
+  <text x="40" y="52" text-anchor="middle" font-family="Georgia, 'Times New Roman', serif" font-size="30" font-weight="bold" fill="#9D8442" letter-spacing="1">WB</text>
+</svg>

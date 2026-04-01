@@ -1,0 +1,5 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 280 60">
+  <!-- Orange Nickelodeon splat blob -->
+  <path d="M16 30 C10 12, 30 2, 50 8 C65 0, 90 -2, 110 6 C125 0, 150 -2, 170 5 C185 -1, 210 0, 230 8 C248 2, 268 10, 272 25 C278 38, 270 52, 255 54 C242 58, 225 58, 210 54 C195 60, 170 60, 150 55 C130 62, 105 60, 85 54 C65 60, 45 58, 30 52 C12 55, 4 45, 8 35 C4 28, 8 22, 16 30Z" fill="#FF6600"/>
+  <text x="140" y="40" text-anchor="middle" font-family="'Helvetica Neue', Helvetica, Arial, sans-serif" font-size="28" font-weight="900" fill="white" letter-spacing="0.5">Nickelodeon</text>
+</svg>

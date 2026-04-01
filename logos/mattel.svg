@@ -1,0 +1,6 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 220 60">
+  <!-- Red Mattel wordmark -->
+  <text x="110" y="44" text-anchor="middle" font-family="'Helvetica Neue', Helvetica, Arial, sans-serif" font-size="44" font-weight="900" fill="#E62229" letter-spacing="4" text-rendering="geometricPrecision">MATTEL</text>
+  <!-- Registered mark -->
+  <text x="205" y="22" text-anchor="middle" font-family="Arial, sans-serif" font-size="10" fill="#E62229">&#174;</text>
+</svg>
